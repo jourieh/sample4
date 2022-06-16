@@ -5,12 +5,37 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <style>
+        form{
+            width: fit-content; 
+            height: 50px; 
+            border: 3px skyblue solid; 
+            border-radius: 20px;
+            display: flex; 
+            align-items: center;
+        }
+        #file,p{
+            font-size: 20px;
+            font-weight: bold;
+        }
+    </style>
 </head>
 <body>
 
-    <form>
-        <input id="file" type="file" name="file">
+    <br>
+    <br>
+    <form  >
+        <input id="file" type="file" name="file" >
     </form>
+
+    <p id="average"></p>
+    <p id="median"></p>
+    <p id="max"></p>
+    <p id="min"></p>
+    <p id="variance"></p>
+    <p id="standard_deviation"></p>
+
+
 
     <script>
         let input = document.getElementById('file');
@@ -43,13 +68,12 @@
                     total.sort((a, b) => b - a); // 大きい順に並ぶ
 
 
-                    console.log("1  "+average());
-                    console.log("2  "+median());
-                    console.log("3  "+max());
-                    console.log("4  "+min());
-                    console.log("5  "+variance());
-                    console.log("6  "+standard_deviation());
-                    
+                    average()
+                    median()
+                    max()
+                    min()
+                    variance()
+                    standard_deviation()
                     
                 };
             }
@@ -60,18 +84,22 @@
             for (let i = 0; i < total.length; i++) {
                 average += total[i]
             }
+            document.getElementById("average").innerText = "平均値は "+ average /total.length
             return average /total.length
         }
 
         function median() { //中央値
-           return total[total.length / 2] 
+            document.getElementById("median").innerText = "中央値は "+ total[24]
+            return total[24] 
         }
 
         function max() { //最大値
+            document.getElementById("max").innerText = "最大値は "+ total[0]
             return total[0]
         }
 
         function min() { //最小値
+            document.getElementById("min").innerText = "最小値は "+ total[46]
             return total[46]
         }
         
@@ -81,10 +109,12 @@
             for (let i = 0; i < total.length; i++) {
                 variance += Math.pow(total[i] - ave ,2)
             }
+            document.getElementById("variance").innerText = "分散は "+ variance /total.length
             return variance /total.length
         }
 
         function standard_deviation() { //標準偏差
+            document.getElementById("standard_deviation").innerText = "標準偏差は "+ Math.sqrt(variance())
             return Math.sqrt(variance())
         }
 
