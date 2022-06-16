@@ -16,16 +16,79 @@
         let input = document.getElementById('file');
         let reader = new FileReader();
 
+        let total = []
+
         input.addEventListener('change', () => {
             for(file of input.files){
                 //Fileオブジェクト(テキストファイル)のファイル内容を読み込む
                 reader.readAsText(file, 'UTF-8');
                 //ファイルの読み込み完了後に内容をコンソールに出力する
                 reader.onload = ()=> {
-                    console.log(reader.result);
+                    var lines = reader.result.split("\n");
+                    for (let i = 0; i < lines.length; i++) {
+                        for (let x = 0; x < 47; x++) {
+                            var y = ""
+                            if (x < 9) {
+                                y = "0"
+                            }
+                            if (`${lines[i]}`.startsWith(`${y}${x + 1}000`)) {
+                                var Prefectures = lines[i].split(",")[1]
+                                let Total_population = lines[i].split(',"')[1].slice(0, -1).split(",").join("") * 1
+                                total.push(lines[i].split(',"')[1].slice(0, -1).split(",").join("") * 1)
+                            }
+                        }
+                        
+                    }
+                    
+                    total.sort((a, b) => b - a); // 大きい順に並ぶ
+
+
+                    console.log("1  "+average());
+                    console.log("2  "+median());
+                    console.log("3  "+max());
+                    console.log("4  "+min());
+                    console.log("5  "+variance());
+                    console.log("6  "+standard_deviation());
+                    
+                    
                 };
             }
         });
+
+        function average() { //平均値
+            let average = 0
+            for (let i = 0; i < total.length; i++) {
+                average += total[i]
+            }
+            return average /total.length
+        }
+
+        function median() { //中央値
+           return total[total.length / 2] 
+        }
+
+        function max() { //最大値
+            return total[0]
+        }
+
+        function min() { //最小値
+            return total[46]
+        }
+        
+        function variance() { //分散
+            let ave = average()
+            let variance = 0
+            for (let i = 0; i < total.length; i++) {
+                variance += Math.pow(total[i] - ave ,2)
+            }
+            return variance /total.length
+        }
+
+        function standard_deviation() { //標準偏差
+            return Math.sqrt(variance())
+        }
+
+
     </script>
     
 </body>
